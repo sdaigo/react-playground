@@ -1,0 +1,15 @@
+{
+  "name": "jsx-playground",
+  "type": "module",
+  "main": "./src/index.js",
+  "scripts": {
+    "watch": "esbuild src/index.jsx --bundle --outfile=public/out.js --watch",
+    "serve": "bun --hot server.js",
+    "check": "biome check ./src",
+    "check:apply": "biome check --write ./src"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "esbuild": "^0.23.1"
+  }
+}
