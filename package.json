@@ -1,5 +1,5 @@
 {
-  "name": "jsx-playground",
+  "name": "react-playground",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {

@@ -1,4 +1,6 @@
-# jsx-playground
+# react-playground
+
+Minimum react implementation.
 
 To install dependencies:
 
