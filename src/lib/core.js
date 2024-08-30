@@ -137,11 +137,15 @@ function render(element, container) {
   console.log("0. render");
   // Fiberツリーの初期化
   wipRoot = {
-    dom: container,
+    dom: container, // 対応する実DOM
     props: {
       children: [element],
     },
-    alternate: currentRoot,
+    alternate: currentRoot, // 前回のFiber（前回のレンダリングのもの）
+    parent: null, // 親Fiber
+    child: null, // 子Fiber
+    sibling: null, // 兄弟Fiber
+    effectTag: null, // DOMに対する操作 PLACEMENT | UPDATE | DELETION
   };
 
   // 削除されるノードのリスト
@@ -151,10 +155,10 @@ function render(element, container) {
   nextUnitOfWork = wipRoot;
 }
 
-let nextUnitOfWork = null;
-let currentRoot = null;
-let wipRoot = null;
-let deletions = null;
+let wipRoot = null; // 現在の作業中のルート
+let currentRoot = null; // 現在のルートFiber
+let nextUnitOfWork = null; // 次に処理する作業ユニット
+let deletions = null; // 作業するノードのリスト
 
 // 作業単位（ユニット）を処理するループ
 function workLoop(deadline) {
@@ -257,15 +261,18 @@ function updateHostComponent(fiber) {
   reconcileChildren(fiber, fiber.props.children);
 }
 
+// 子要素の差分検出と更新
+//
 function reconcileChildren(wipFiber, elements) {
-  let index = 0;
-  let oldFiber = wipFiber.alternate?.child;
-  let prevSibling = null;
+  let index = 0; // 現在処理中の子ノードのインデックス
+  let oldFiber = wipFiber.alternate?.child; // 前回レンダリング時の子Fiber
+  let prevSibling = null; // 新しく生成されるFiber
 
   while (index < elements.length || oldFiber != null) {
     const element = elements[index];
     let newFiber = null;
 
+    // 前回のFiberと新しい仮想DOMのノードが同じタイプかどうかをチェック
     const sameType = oldFiber && element && element.type === oldFiber.type;
 
     if (sameType) {
