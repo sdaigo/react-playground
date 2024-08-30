@@ -3,7 +3,7 @@
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
-    "watch": "esbuild src/index.jsx --bundle --outfile=public/out.js --watch",
+    "watch": "esbuild src/index.jsx --bundle --outfile=public/out.js --jsx-factory=re.createElement --watch",
     "serve": "bun --hot server.js",
     "check": "biome check ./src",
     "check:apply": "biome check --write ./src"

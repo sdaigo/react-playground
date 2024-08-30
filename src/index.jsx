@@ -1,6 +1,4 @@
-import { Component } from "./component";
+import Component from "./component";
+import * as re from "./lib/core";
 
-const root = document.getElementById("root");
-
-root.innerHTML = "";
-root.appendChild(<Component name="aoi" />);
+re.render(<Component />, document.getElementById("root"));
